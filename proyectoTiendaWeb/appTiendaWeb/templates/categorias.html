@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block titulo_pagina %}
+    Categorias
+{% endblock titulo_pagina %}
+
+{% block contenido_principal %}
+
+    <!-- Fila de textos -->
+    <div class="row">
+
+        <div class="col-12 mt-5">
+
+            <h1 class="text-center">Categoría {{ categoria.nombre }}</h1>
+            <p class="text-center">{{ categoria.descripcion }}</p>
+
+        </div>
+
+    </div>
+
+    <!-- Fila de tarjetas de prductos -->
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-7 mt-5">
+            <div class="card-group">
+
+                {% for producto in productos %}
+                <div class="card">
+
+                    <img src="{{ producto.imagen.url }}" style="width: 80%;" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">{{ producto.descripcion }}</p>
+                        <p class="card-text"><small class="text-muted">${{ producto.valor }}</small></p>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-success">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock contenido_principal %}
+
+
+
+    

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block titulo_pagina %}
+    Inicio
+{% endblock titulo_pagina %}
+
+{% block contenido_principal %}
+
+    <!-- Fila de textos -->
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-12 d-flex justify-content-center mt-5">
+
+            <h1 class="d-block">Bienvenido</h1>
+
+        </div>
+
+        <div class="col-12 d-flex justify-content-center">
+            <p>a la mejor tienda en línea</p>
+        </div>
+
+        <div class="col-8 mt-3 d-flex justify-content-center">
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Ver categorías
+                </button>
+                <ul class="dropdown-menu">
+                    {% for categoria in categorias %}
+                        <li><a class="dropdown-item" href="/categorias/{{ categoria.id }}">{{ categoria.nombre }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Fila de tarjetas de prductos -->
+    <div class="row d-flex justify-content-center">
+
+        <div class="col-7 mt-5">
+            <div class="card-group">
+
+                {% for producto in productos %}
+                <div class="card">
+
+                    <img src="{{ producto.imagen.url }}" style="width: 80%;" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">{{ producto.descripcion }}</p>
+                        <p class="card-text"><small class="text-muted">${{ producto.valor }}</small></p>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-success">Añadir al carrito</button>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock contenido_principal %}
+
+
+
+    

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block titulo_pagina %}
+    Registro de productos
+{% endblock titulo_pagina %}
+
+{% block contenido_principal %}
+
+    <!-- Fila de textos -->
+    <div class="row">
+
+        <div class="col-12 d-flex justify-content-center mt-5">
+
+            <h1 class="d-block">Registro de nuevo producto</h1>
+
+        </div>
+
+    </div>
+
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-6 mt-3 mb-5">
+
+
+            <!-- Alerta de creación de productos -->
+            {% if mensaje %}
+            <div class="row d-flex justify-content-center">
+                <div class="col-8">
+                    <div class="alert alert-success" role="alert">
+                        {{ mensaje }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+        
+            <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Nombre</label>
+                    <input type="text" name="formNombre" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Categoría</label>
+                    <select class="form-control" name="formCategoria">
+
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.id }}">{{ categoria }} - {{ categoria.descripcion }}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Descripción</label>
+                    <input type="text" name="formDescripcion" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Valor</label>
+                    <input type="number" name="formValor" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Stock</label>
+                    <input type="number" name="formStock" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtContrasena" class="form-label">Imagen</label>
+                    <input type="file" name="formImagen" class="form-control" accept="image/png, image/jpeg" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Registrar producto</button>
+
+            </form>
+
+        </div>
+    </div>
+
+{% endblock contenido_principal %}
+

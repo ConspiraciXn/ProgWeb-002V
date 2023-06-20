@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block titulo_pagina %}
+    Registro de usuarios
+{% endblock titulo_pagina %}
+
+{% block contenido_principal %}
+
+    <!-- Fila de textos -->
+    <div class="row">
+
+        <div class="col-12 d-flex justify-content-center mt-5">
+
+            <h1 class="d-block">Registro de nuevo usuario</h1>
+
+        </div>
+
+    </div>
+
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-6 mt-3 mb-5">
+
+            <form method="POST">
+            {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Nombre</label>
+                    <input type="text" name="formNombre" class="form-control" id="txtUsuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Apellido</label>
+                    <input type="text" name="formApellido" class="form-control" id="txtUsuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Nombre de usuario</label>
+                    <input type="text" name="formUsuario" class="form-control" id="txtUsuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Correo electrónico</label>
+                    <input type="email" name="formEmail" class="form-control" id="txtUsuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtContrasena" class="form-label">Contraseña</label>
+                    <input type="password" name="formContrasena" class="form-control" id="txtContrasena" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Registrar usuario</button>
+                <span>¿Ya tienes una cuenta? 
+                    <a href="{% url 'inicio_sesion' %}">¡Inicia sesión!</a></span>
+
+            </form>
+
+        </div>
+    </div>
+
+{% endblock contenido_principal %}
+

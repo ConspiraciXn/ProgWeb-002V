@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <!-- Etiqueta Charset para codificado -->
+    <meta charset="UTF-8">
+
+    <!-- Etiqueta ViewPort para Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Titulo -->
+    <title>{% block titulo_pagina %}{% endblock titulo_pagina %} | Tienda Web</title>
+
+    <!-- CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- CSS de FontAwesome para iconos -->
+    <script src="https://kit.fontawesome.com/3f2a26e416.js" crossorigin="anonymous"></script>
+
+    <!-- Bloque CSS -->   
+    {% block css_personalizado %}{% endblock css_personalizado %}
+
+</head>
+
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'inicio' %}">Tienda web</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'inicio' %}">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'inicio' %}">Carrito de compra</a>
+                    </li>
+
+                    {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'registro_producto' %}">Registro productos</a>
+                    </li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated == False %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inicio_sesion' %}">Iniciar sesión</a>
+                    </li>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated %}
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'carrito_compra' %}">Ver carrito <i class="fa-solid fa-cart-shopping text-primary"></i></i></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cerrar_sesion' %}"><i class="fa-solid fa-right-from-bracket text-danger"></i></a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Bloque Contenido -->
+    {% block contenido_principal %}{% endblock contenido_principal %}
+
+    <!-- Bloque JS Personalizado -->
+    {% block js_personalizado %}{% endblock js_personalizado %}
+
+    <!-- JS Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

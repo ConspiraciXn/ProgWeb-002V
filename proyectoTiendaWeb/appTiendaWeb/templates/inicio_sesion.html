@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block titulo_pagina %}
+    Iniciar sesión
+{% endblock titulo_pagina %}
+
+{% block contenido_principal %}
+
+    <!-- Fila de textos -->
+    <div class="row">
+
+        <div class="col-12 d-flex justify-content-center mt-5">
+
+            <h1 class="d-block">Iniciar sesión</h1>
+
+        </div>
+
+    </div>
+
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-6 mt-5">
+
+            <form method="POST">
+            {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="txtUsuario" class="form-label">Nombre de usuario</label>
+                    <input type="text" name="formUsuario" class="form-control" id="txtUsuario" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="txtContrasena" class="form-label">Contraseña</label>
+                    <input type="password" name="formContrasena" class="form-control" id="txtContrasena" required>
+                </div>
+
+                <button type="submit" class="btn btn-success">Iniciar sesión</button>
+                <span>¿No tienes una cuenta? 
+                <a href="{% url 'registro_usuario' %}">¡Regístrate!</a></span>
+
+            </form>
+
+        </div>
+    </div>
+
+{% endblock contenido_principal %}
+
