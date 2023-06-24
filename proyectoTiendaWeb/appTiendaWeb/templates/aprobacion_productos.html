@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block titulo_pagina %}
+Aprobación productos
+{% endblock titulo_pagina %}
+
+{% block contenido_principal %}
+
+<!-- Fila de textos -->
+<div class="row d-flex justify-content-center">
+
+    <div class="col-12 d-flex justify-content-center mt-5">
+
+        <h1 class="d-block">Aprobación de productos</h1>
+
+    </div>
+
+</div>
+
+<!-- Tabla de productos -->
+<div class="row d-flex justify-content-center">
+
+    <div class="col-7 mt-3 mb-5">
+
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for producto in productos %}
+                <tr>
+                    <th scope="row">{{ producto.id }}</th>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.categoria }}</td>
+                    <td>
+                        {% if producto.estado == 'aprobado' %}
+                            <span class="badge text-bg-success">APROBADO</span>
+                        {% elif producto.estado == 'pendiente' %}
+                            <span class="badge text-bg-warning">PENDIENTE</span>
+                        {% elif producto.estado == 'rechazado' %}
+                            <span class="badge text-bg-danger">RECHAZADO</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if producto.estado == 'aprobado' %}
+                            <a class="btn btn-success disabled" href="/productos/aprobar/{{ producto.id }}/"><i class="fa-solid fa-check"></i></a>
+                        {% else %}
+                            <a class="btn btn-success" href="/productos/aprobar/{{ producto.id }}/"><i class="fa-solid fa-check"></i></a>
+                        {% endif %}
+
+                        {% if producto.estado == 'rechazado' %}
+                            <a class="btn btn-danger disabled" href="/productos/rechazar/{{ producto.id }}/"><i class="fa-solid fa-xmark"></i></a>
+                        {% else %}
+                            <a class="btn btn-danger" href="/productos/rechazar/{{ producto.id }}/"><i class="fa-solid fa-xmark"></i></a>
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock contenido_principal %}

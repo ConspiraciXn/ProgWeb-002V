@@ -16,7 +16,7 @@ from django.contrib.auth.decorators import login_required
 def inicio(request):
 
     # Busca todos los productos de la base de datos.
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(estado = 'aprobado')
     categorias = Categoria.objects.all()
 
     contexto = {
@@ -147,11 +147,182 @@ def categorias(request, id_categoria):
     }
     return render(request, 'categorias.html', contexto)
 
+def aprobacion_productos(request):
+
+    productos = Producto.objects.all()
+
+    contexto = {
+        "productos": productos
+    }
+    return render(request, 'aprobacion_productos.html', contexto)
+
+def aprobar_producto(request, id_producto):
+
+    producto = Producto.objects.get(id = id_producto)
+    producto.estado = 'aprobado'
+    producto.save()
+    
+    return redirect('/aprobacion-productos/')
+
+def rechazar_producto(request, id_producto):
+
+    producto = Producto.objects.get(id = id_producto)
+    producto.estado = 'rechazado'
+    producto.save()
+    
+    return redirect('/aprobacion-productos/')
+
 
 # ------------------------------------------------------------
 # Carrito de compra.
 # ------------------------------------------------------------
 
 def carrito_compra(request):
-    return render(request, 'carrito_compra.html')
+
+    usuario = request.user
+
+    # Validar si existe un carrito de compra para el usuario.
+    existencia_carrito = CarritoCompra.objects.filter(comprador = usuario)
+    
+    # Si existe un carrito de compra.
+    if len(existencia_carrito) > 0:
+        carrito = CarritoCompra.objects.get(comprador = usuario)
+        productos = ItemCarrito.objects.filter(carrito = carrito)
+
+        contexto = {
+            "carrito": carrito,
+            "productos": productos
+        }
+        return render(request, 'carrito_compra.html', contexto)
+    
+    # Si no existe un carrito de compra.
+    else:
+        return render(request, 'carrito_compra.html')
+
+def agregar_producto(request, id_producto):
+
+    usuario = request.user
+    producto = Producto.objects.get(id = id_producto)
+
+    # Validar si existe un carrito de compra.
+    existencia_carrito = CarritoCompra.objects.filter(comprador = usuario)
+
+    # Si existe de carrito de compra.
+    if len(existencia_carrito) > 0:
+
+        carrito = CarritoCompra.objects.get(comprador = usuario)
+        carrito.cantidad_productos += 1
+        carrito.total += producto.valor
+        carrito.save()
+
+        # Validar si ya existe el producto en el carrito.
+        existencia_producto = ItemCarrito.objects.filter(carrito = carrito).filter(producto = producto)
+
+        # Si el producto ya existe en el carrito.
+        if len(existencia_producto) > 0:
+
+            item = ItemCarrito.objects.get(producto = producto)
+            item.cantidad += 1
+            item.total += producto.valor
+            item.save()
+
+        # Si el producto no existe en el carrito, lo creamos.
+        else:
+
+            item = ItemCarrito()
+            item.carrito = carrito
+            item.producto = producto
+            item.valor_unitario = producto.valor
+            item.cantidad = 1
+            item.total = producto.valor
+            item.save()
+
+    # Si no existe carrito de compra.
+    else:
+
+        carrito = CarritoCompra()
+        carrito.comprador = usuario
+        carrito.cantidad_productos = 1
+        carrito.total = producto.valor
+        carrito.save()
+
+        item = ItemCarrito()
+        item.carrito = carrito
+        item.producto = producto
+        item.valor_unitario = producto.valor
+        item.cantidad = 1
+        item.total = producto.valor
+        item.save() 
+
+
+    # Misma funcionalidad del inicio.
+    productos = Producto.objects.all()
+    categorias = Categoria.objects.all()
+
+    contexto = {
+        "productos": productos,
+        "categorias": categorias,
+        "alerta_producto" : True
+    }
+    return render(request, "inicio.html", contexto)
+
+def aumentar_cantidad(request, id_item):
+
+    # Obtener item de carrito.
+    item = ItemCarrito.objects.get(id = id_item)
+
+    # Aumentar cantidad y valor total.
+    item.cantidad += 1
+    item.total += item.valor_unitario
+    item.save()
+
+    # Actualizar carrito de compra.
+    carrito = item.carrito
+    carrito.cantidad_productos += 1
+    carrito.total += item.valor_unitario
+    carrito.save()
+
+    return redirect('/mi-carrito/')
+
+def disminuir_cantidad(request, id_item):
+
+    # Obtener item de carrito.
+    item = ItemCarrito.objects.get(id = id_item)
+
+    # Disminuir cantidad y valor total.
+    item.cantidad -= 1
+    item.total -= item.valor_unitario
+    item.save()
+
+    # Actualizar carrito de compra.
+    carrito = item.carrito
+    carrito.cantidad_productos -= 1
+    carrito.total -= item.valor_unitario
+    carrito.save()
+
+    return redirect('/mi-carrito/')
+
+def remover_producto(request, id_item):
+
+    # Obtener item de carrito.
+    item = ItemCarrito.objects.get(id = id_item)
+
+    # Actualizar carrito de compra.
+    carrito = item.carrito
+    carrito.cantidad_productos -= 1
+    carrito.total -= item.valor_unitario
+    carrito.save()
+
+    # Eliminar item de carrito.
+    item.delete()
+
+    return redirect('/mi-carrito/')
+
+def finalizar_compra(request, id_carrito):
+
+    # Obtener carrito.
+    carrito = CarritoCompra.objects.get(id = id_carrito)
+    carrito.delete()
+
+    return redirect('/mi-carrito/')
 

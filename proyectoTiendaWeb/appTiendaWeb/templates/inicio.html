@@ -34,30 +34,49 @@
 
     </div>
 
+    <!-- Alerta de producto agregado -->
+    {% if alerta_producto %}
+    <div class="row d-flex justify-content-center mt-5 mb-0">
+        <div class="col-5">
+            <div class="alert alert-success" role="alert">
+                ¡Producto añadido al carrito exitosamente!
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Fila de tarjetas de prductos -->
     <div class="row d-flex justify-content-center">
 
-        <div class="col-7 mt-5">
-            <div class="card-group">
+        <div class="col-7 mt-3 mb-5">
 
+            <div class="row row-cols-4">
                 {% for producto in productos %}
-                <div class="card">
+                <div class="col">
+                    <div class="card d-flex flex-column h-100">
 
-                    <img src="{{ producto.imagen.url }}" style="width: 80%;" class="card-img-top" alt="...">
+                        <img src="{{ producto.imagen.url }}" style="max-height: 130px;" class="card-img-top" alt="...">
 
-                    <div class="card-body">
-                        <h5 class="card-title">{{ producto.nombre }}</h5>
-                        <p class="card-text">{{ producto.descripcion }}</p>
-                        <p class="card-text"><small class="text-muted">${{ producto.valor }}</small></p>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-success">Añadir al carrito</button>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ producto.nombre }}</h5>
+                            <p class="card-text">{{ producto.descripcion }}</p>
+                            <p class="card-text text-center"><strong class="text-success">${{ producto.valor }}</strong></p>
                         </div>
-                    </div>
 
+                        {% if request.user.is_authenticated %}
+                        <div class="card-footer">
+
+                            <div class="d-flex justify-content-center">
+                                <a href="/mi-carrito/agregar-prod/{{ producto.id }}/" class="btn btn-success">Añadir al carrito</a>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
                 </div>
                 {% endfor %}
-
             </div>
+
         </div>
 
     </div>

@@ -46,6 +46,9 @@ urlpatterns = [
 
     path('productos/registrar/', registro_producto, name='registro_producto'),
     path('categorias/<id_categoria>/', categorias, name='categorias'),
+    path('aprobacion-productos/', aprobacion_productos, name='aprobacion_productos'),
+    path('productos/aprobar/<id_producto>/', aprobar_producto, name='aprobar_producto'),
+    path('productos/rechazar/<id_producto>/', rechazar_producto, name='rechazar_producto'),
 
 
     # ------------------------------------------------------------
@@ -53,6 +56,11 @@ urlpatterns = [
     # ------------------------------------------------------------
 
     path('mi-carrito/', carrito_compra, name='carrito_compra'),
+    path('mi-carrito/agregar-prod/<id_producto>/', agregar_producto, name='agregar_producto'),
+    path('mi-carrito/aumentar/<id_item>/', aumentar_cantidad, name='aumentar_cantidad'),
+    path('mi-carrito/disminuir/<id_item>/', disminuir_cantidad, name='disminuir_cantidad'),
+    path('mi-carrito/eliminar/<id_item>/', remover_producto, name='remover_producto'),
+    path('mi-carrito/finalizar/<id_carrito>/', finalizar_compra, name='finalizar_compra'),
 
 
 # Permite servir los estáticos y media.

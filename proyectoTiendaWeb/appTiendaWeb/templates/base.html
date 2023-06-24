@@ -43,11 +43,12 @@
                         <a class="nav-link" aria-current="page" href="{% url 'inicio' %}">Inicio</a>
                     </li>
 
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'inicio' %}">Carrito de compra</a>
+                        <a class="nav-link" aria-current="page" href="{% url 'aprobacion_productos' %}">Aprobación productos</a>
                     </li>
 
-                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'registro_producto' %}">Registro productos</a>
                     </li>

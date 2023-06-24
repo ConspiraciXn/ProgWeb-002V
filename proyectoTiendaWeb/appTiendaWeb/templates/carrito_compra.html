@@ -21,39 +21,57 @@
     <!-- Fila de tarjetas de prductos -->
     <div class="row d-flex justify-content-center">
 
+        {% if carrito %}
         <div class="col-7 mt-5">
             <ul class="list-group">
 
+                {% for item in productos %}
                 <!-- Elemento de carrito -->
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col-3 d-flex justify-content-center">
-                            <img src="https://www.avalco.cl/3650-thickbox_default/escoba5costuras.jpg" style="width: 50%;">
-                        </div>
-                        <div class="col-9">
-                            <h4>Escoba</h4>
-                            <p>Escoba de alta calidad mágica que barre y limpia todo.</p>
-                            <p><strong>Cantidad: </strong> 2 - <strong>Valor: </strong> $5.000</p>
-                        </div>
-                    </div>
-                </li>
 
-                <!-- Elemento de carrito -->
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col-3 d-flex justify-content-center">
-                            <img src="https://www.avalco.cl/3650-thickbox_default/escoba5costuras.jpg" style="width: 50%;">
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                            <img src="{{ item.producto.imagen.url }}" style="width: 100%;">
                         </div>
-                        <div class="col-9">
-                            <h4>Escoba</h4>
-                            <p>Escoba de alta calidad mágica que barre y limpia todo.</p>
-                            <p><strong>Cantidad: </strong> 2 - <strong>Valor: </strong> $5.000</p>
+
+                        <div class="col-6">
+                            <h4 class="mt-2">{{ item.producto.nombre }}</h4>
+                            <p class="m-0">{{ item.producto.descripcion }}</p>
+                            <p class="m-0"><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+                            <p class="m-0"><strong>Valor unitario: </strong> ${{ item.valor_unitario }}</p>
+                            <p class="mt-0 mb-2"><strong>Valor total: </strong> ${{ item.total }}</p>
                         </div>
+
+                        <div class="col-4 d-flex align-items-center justify-content-center">
+                            <a href="/mi-carrito/aumentar/{{ item.id }}/" class="btn btn-success me-1"><i class="fa-solid fa-plus"></i></a>
+                            <a href="/mi-carrito/disminuir/{{ item.id }}/" class="btn btn-warning me-1"><i class="fa-solid fa-minus"></i></a>
+                            <a href="/mi-carrito/eliminar/{{ item.id }}/" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+
                     </div>
                 </li>
+                {% endfor %}
+
 
               </ul>
+
+              <div class="row">
+                <div class="col-10">
+                    <p class="mt-3 mb-0 text-end"><strong>Cantidad de productos:</strong> {{ carrito.cantidad_productos }}</p>
+                    <p class="m-0 text-end"><strong>Total a pagar:</strong> <span class="text-success">${{ carrito.total }}</span></p>
+                </div>
+                <div class="col-2 mb-5">
+                    <a href="/mi-carrito/finalizar/{{ carrito.id }}/" class="btn btn-success btn-sm mt-3">Finalizar compra</a>
+                </div>
+              </div>
+   
         </div>
+
+        {% else %}
+        <div class="col-7 mt-5">
+            <h5 class="text-center text-secondary">Ups! No has agregado productos a tu carrito.</h5>
+        </div>
+        {% endif %}
 
     </div>
 

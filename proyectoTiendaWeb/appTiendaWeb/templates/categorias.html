@@ -21,27 +21,31 @@
     <!-- Fila de tarjetas de prductos -->
     <div class="row d-flex justify-content-center">
 
-        <div class="col-7 mt-5">
-            <div class="card-group">
+        <div class="col-7 mt-5 mb-5">
 
-                {% for producto in productos %}
-                <div class="card">
+                <div class="row row-cols-4">
 
-                    <img src="{{ producto.imagen.url }}" style="width: 80%;" class="card-img-top" alt="...">
-
-                    <div class="card-body">
-                        <h5 class="card-title">{{ producto.nombre }}</h5>
-                        <p class="card-text">{{ producto.descripcion }}</p>
-                        <p class="card-text"><small class="text-muted">${{ producto.valor }}</small></p>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-success">Añadir al carrito</button>
+                    {% for producto in productos %}
+                    <div class="col">
+                        <div class="card">
+        
+                            <img src="{{ producto.imagen.url }}" style="width: 80%;" class="card-img-top" alt="...">
+        
+                            <div class="card-body">
+                                <h5 class="card-title">{{ producto.nombre }}</h5>
+                                <p class="card-text">{{ producto.descripcion }}</p>
+                                <p class="card-text"><small class="text-muted">${{ producto.valor }}</small></p>
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-success">Añadir al carrito</button>
+                                </div>
+                            </div>
+        
                         </div>
                     </div>
+                    {% endfor %}
 
                 </div>
-                {% endfor %}
-
-            </div>
+                
         </div>
 
     </div>
